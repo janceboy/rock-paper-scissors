@@ -1,6 +1,5 @@
-let draw = 'its a draw';
-let victor = 'you win';
-let defeat = 'you lose';
+const result = ['it\'s a draw', 'you win', 'you lose']
+
 
 //generate a random item for computer
 function computerPlay () {
@@ -17,15 +16,15 @@ function playGame (computerChoice, userChoice) {
     computerChoice = computerPlay().toLowerCase();
 
     if (computerChoice === userChoice) {
-        console.log('draw')
+        console.log(result[0])
     } else if (userChoice === 'paper' && computerChoice === 'rock') {
-        console.log('victory')
+        console.log(result[1])
     } else if (userChoice === 'rock' && computerChoice === 'scissors') {
-        console.log('victory')
+        console.log(result[1])
     } else if (userChoice ==='scissors' && computerChoice === 'paper') {
-        console.log('victory')
+        console.log(result[1])
     } else {
-        console.log('defeat')
+        console.log(result[2])
     }
     
 }
