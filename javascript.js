@@ -1,36 +1,81 @@
-const result = ['it\'s a draw', 'you win', 'you lose']
-
-
-//generate a random item for computer
-function computerPlay () {
-    let choices = ['Rock', 'Paper', 'Scissors'];
-    let computerChoice = choices[Math.floor(Math.random() * choices.length)];
-    return computerChoice;
+    //generate a random hand for computer
+    function computerPlay () {
+        let choices = ['rock', 'paper', 'scissors'];
+        let computerChoice = choices[Math.floor(Math.random() * choices.length)];
+        return computerChoice;
+        
+    }
+    const btns = document.querySelectorAll("div.myBtn > button"); // gets all the buttons in the mybtn div
+    let userHand;
     
-}
-game()
 
-//compare the choices and decide a victor
-function playGame (computerChoice, userChoice) {
-    userChoice = prompt("Choose between Rock, Paper or scissors").toLowerCase();
-    computerChoice = computerPlay().toLowerCase();
+    function userChoice () {
 
-    if (computerChoice === userChoice) {
-        console.log(result[0])
-    } else if (userChoice === 'paper' && computerChoice === 'rock') {
-        console.log(result[1])
-    } else if (userChoice === 'rock' && computerChoice === 'scissors') {
-        console.log(result[1])
-    } else if (userChoice ==='scissors' && computerChoice === 'paper') {
-        console.log(result[1])
-    } else {
-        console.log(result[2])
+        for (let i = 0; i < btns.length; i++) { //sets the player hand to clicked button
+            btns[i].addEventListener("click", function () {
+                userHand = btns[i].value
+            });
+        }
+        return userHand
+    }
+    let userScore = 0;
+    let compScore = 0;
+    //compare the choices and decide a victor
+    function playRound (computerChoice, userHand) {
+        userHand = userChoice()
+        computerChoice = computerPlay().toLowerCase();
+        const result = document.createElement('p')
+        const playerScore = document.querySelector('#playerScore')
+        const computerScore = document.querySelector('#computerScore')
+
+        if (computerChoice === userHand) {
+            result.textContent = 'it\`s a draw'
+            document.body.appendChild(result)
+        } else if (userHand === 'paper' && computerChoice === 'rock') {
+            result.textContent = 'you win'
+            document.body.appendChild(result)
+            userScore += 1
+            playerScore.textContent = userScore;
+        } else if (userHand === 'rock' && computerChoice === 'scissors') {
+            result.textContent = 'you win'
+            document.body.appendChild(result)
+            userScore += 1
+            playerScore.textContent = userScore;
+        } else if (userHand ==='scissors' && computerChoice === 'paper') {
+            result.textContent = 'you win'
+            document.body.appendChild(result)
+            userScore += 1
+            playerScore.textContent = userScore;
+        } else {
+            result.textContent = 'you lost'
+            document.body.appendChild(result)
+            compScore += 1
+            computerScore.textContent = compScore;
+        }
+        
     }
     
-}
-
-function game(play) {
-    for (let i = 0; i < 5; i++) {
-        play = playGame();
+    function game() {
+        if(compScore < 5 && userScore < 5) { //only runs playround function as long as compscore and userscore are less than 5
+            playRound()
+        } else {
+            gameResult()
         }
-     }
+    }
+
+    for (let i = 0; i < btns.length; i++) { //triggers game function on button press
+        btns[i].addEventListener('click', game)
+    }
+
+    function gameResult() {
+        const displayResult = document.createElement('h1')
+
+        if (userScore === 5) {
+            displayResult.textContent = 'You won the game, Refresh the page to play again'
+            displayResult.style.color = 'green'
+        } else if (compScore == 5) {
+            displayResult.textContent = 'You lost the game, Refresh the page to play again'
+            displayResult.style.color = 'red'
+        }
+        document.body.appendChild(displayResult)
+    }
